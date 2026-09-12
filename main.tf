@@ -105,7 +105,7 @@ resource "aws_instance" "app_server" {
   instance_type          = "t3.micro"
   subnet_id              = aws_subnet.public_subnet.id
   vpc_security_group_ids = [aws_security_group.app_server_sg.id]
-  key_name               = "DevopsPRT.pem"
+  key_name               = "DevopsPRT"
   tags = { Name = "quickbite-app-server" }
 }
 
@@ -114,7 +114,7 @@ resource "aws_instance" "db_server" {
   instance_type          = "t3.micro"
   subnet_id              = aws_subnet.private_subnet.id
   vpc_security_group_ids = [aws_security_group.db_server_sg.id]
-  key_name               = "DevopsPRT.pem"
+  key_name               = "DevopsPRT"
   tags = { Name = "quickbite-db-server" }
 }
 

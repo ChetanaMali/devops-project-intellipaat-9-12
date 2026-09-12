@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "ap-south-1"
+  region = "us-east-1"
 }
 
 resource "aws_vpc" "quickbite_vpc" {
@@ -11,14 +11,14 @@ resource "aws_subnet" "public_subnet" {
   vpc_id                  = aws_vpc.quickbite_vpc.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone       = "ap-south-1a"
+  availability_zone       = "us-east-1a"
   tags = { Name = "quickbite-public-subnet" }
 }
 
 resource "aws_subnet" "private_subnet" {
   vpc_id            = aws_vpc.quickbite_vpc.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = "ap-south-1a"
+  availability_zone = "us-east-1a"
   tags = { Name = "quickbite-private-subnet" }
 }
 
@@ -101,20 +101,20 @@ resource "aws_security_group" "db_server_sg" {
 
 ###Add EC2 instances###
 resource "aws_instance" "app_server" {
-  ami                    = "ami-0f5ee92e2d63afc18" # Ubuntu 22.04, ap-south-1
-  instance_type          = "t2.micro"
+  ami                    = "ami-0b6d9d3d33ba97d99" # Ubuntu 22.04, ap-south-1
+  instance_type          = "t3.micro"
   subnet_id              = aws_subnet.public_subnet.id
   vpc_security_group_ids = [aws_security_group.app_server_sg.id]
-  key_name               = "your-key-name"
+  key_name               = "DevopsPRT.pem"
   tags = { Name = "quickbite-app-server" }
 }
 
 resource "aws_instance" "db_server" {
-  ami                    = "ami-0f5ee92e2d63afc18"
-  instance_type          = "t2.micro"
+  ami                    = "ami-0b6d9d3d33ba97d99"
+  instance_type          = "t3.micro"
   subnet_id              = aws_subnet.private_subnet.id
   vpc_security_group_ids = [aws_security_group.db_server_sg.id]
-  key_name               = "your-key-name"
+  key_name               = "DevopsPRT.pem"
   tags = { Name = "quickbite-db-server" }
 }
 
